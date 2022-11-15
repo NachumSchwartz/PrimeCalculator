@@ -1,22 +1,17 @@
 import java.util.*;
 
 public class Prime{
-    private Prime(int num){
-        if(isPrime(num))
-            System.out.println("Prime");
-        else
-            System.out.println("Not Prime");    
-            
-        //System.out.println(Arrays.toString(allPrimes(num).toArray()));
-        System.out.println(Arrays.toString(allPrimesEratosthenes(num).toArray()));
-    }
+    private ArrayList<Integer> listOfPrimes = new ArrayList<Integer>();
+    private long durationOfCalculation;
+    
+    public Prime(){}
 
-    private boolean isPrime(long num){
-        if(num == 2||num == 3){
-            return true;
-        }
+    public boolean isPrime(int num){
         if (num <= 1){
             return false;
+        }
+        if(num == 2||num == 3){
+            return true;
         }
         if (num % 2 == 0){
             System.out.println("Divisible by 2");
@@ -26,6 +21,10 @@ public class Prime{
             System.out.println("Divisible by 3");
             return false;
         }
+        
+        //cycle through all possible divisors 
+        //beginning with 5 and adding 2 and then 4 alternately
+        //this covers all prime divisors
         for (int i = 5; i * i <= num; i += 6){
             if (num % i == 0){
                 System.out.println("Divisible by " + i);
@@ -37,10 +36,11 @@ public class Prime{
             }
         }
 
+        //if no number goes evenly into the given number it is prime
         return true;
     }
     
-    private ArrayList<Integer> allPrimes(int num){
+    public ArrayList<Integer> allPrimes(int num){
         boolean[] nums = new boolean[num + 1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         
@@ -65,7 +65,7 @@ public class Prime{
         return primes;
     }//end method
     
-    private ArrayList<Integer> allPrimesEratosthenes(int num){
+    public ArrayList<Integer> allPrimesEratosthenes(int num){
         boolean[] nums = new boolean[num +1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         int sqrtOfNum = (int)Math.sqrt(num);
@@ -101,7 +101,16 @@ public class Prime{
         return primes;
     }//end method
     
-    public static void main(String[] args){
-        Prime obj = new Prime(Integer.parseInt(args[0]));
-    }//end main method 
+    public void runAlgorithm(int num, boolean eratosthenes){        
+        long startTime = System.nanoTime();
+        
+        if(!eratosthenes){
+            listOfPrimes = allPrimes(num);
+        }else{
+            listOfPrimes = allPrimesEratosthenes(num);
+        }
+        
+        //store duration in instance variable
+        durationOfCalculation = System.nanoTime() - startTime;
+    }
 }//end class
