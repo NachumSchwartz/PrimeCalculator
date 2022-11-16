@@ -40,7 +40,9 @@ public class Prime{
         return true;
     }
     
-    public ArrayList<Integer> allPrimes(int num){
+    //get all prime numbers <= parameter integer
+    //checks each number individually to see if it is prime
+    private ArrayList<Integer> allPrimes(int num){
         boolean[] nums = new boolean[num + 1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         
@@ -65,7 +67,9 @@ public class Prime{
         return primes;
     }//end method
     
-    public ArrayList<Integer> allPrimesEratosthenes(int num){
+    //get all prime numbers <= parameter integer
+    //algorithm employs sieve of eratosthenes
+    private ArrayList<Integer> allPrimesEratosthenes(int num){
         boolean[] nums = new boolean[num +1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         int sqrtOfNum = (int)Math.sqrt(num);
@@ -101,6 +105,7 @@ public class Prime{
         return primes;
     }//end method
     
+    //return list of prime numbers using chosen algorithm
     public void runAlgorithm(int num, boolean eratosthenes){        
         long startTime = System.nanoTime();
         
@@ -108,9 +113,17 @@ public class Prime{
             listOfPrimes = allPrimes(num);
         }else{
             listOfPrimes = allPrimesEratosthenes(num);
-        }
+        }//end if-else
         
         //store duration in instance variable
         durationOfCalculation = System.nanoTime() - startTime;
-    }
+    }//end method
+    
+    public ArrayList<Integer> getPrimes(){
+        return listOfPrimes;
+    }//end method
+    
+    public long getDuration(){
+        return durationOfCalculation;
+    }//end method
 }//end class
