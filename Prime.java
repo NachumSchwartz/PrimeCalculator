@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Prime{
+    private String divisibleBy;
     private ArrayList<Integer> listOfPrimes = new ArrayList<Integer>();
     private long durationOfCalculation;
     
@@ -14,11 +15,11 @@ public class Prime{
             return true;
         }
         if (num % 2 == 0){
-            System.out.println("Divisible by 2");
+            divisibleBy = "Divisible by 2";
             return false; 
         }
         if (num % 3 == 0){
-            System.out.println("Divisible by 3");
+            divisibleBy = "Divisible by 3";
             return false;
         }
         
@@ -27,11 +28,11 @@ public class Prime{
         //this covers all prime divisors
         for (int i = 5; i * i <= num; i += 6){
             if (num % i == 0){
-                System.out.println("Divisible by " + i);
+                divisibleBy = "Divisible by " + i;
                 return false;
             }
             if (num % (i + 2) == 0){
-                System.out.println("Divisible by " + (i + 2));
+                divisibleBy = "Divisible by " + (i + 2);
                 return false;
             }
         }
@@ -119,10 +120,13 @@ public class Prime{
         durationOfCalculation = System.nanoTime() - startTime;
     }//end method
     
+    //getters
+    public String getDivisibleBy(){
+        return divisibleBy;
+    }//end method    
     public ArrayList<Integer> getPrimes(){
         return listOfPrimes;
-    }//end method
-    
+    }//end method   
     public long getDuration(){
         return durationOfCalculation;
     }//end method
