@@ -1,7 +1,3 @@
-Prime.class
-Prime.ctxt
+*.class
+*.ctxt
 package.bluej
-PrimeGUI.class
-PrimeGUI.ctxt
-GBC.class
-GBC.ctxt
