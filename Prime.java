@@ -26,7 +26,9 @@ public class Prime{
         //cycle through all possible divisors 
         //beginning with 5 and adding 2 and then 4 alternately
         //this covers all prime divisors
-        for (int i = 5; i * i <= num; i += 6){
+        //condition i*i > 0 helps for overflow when i > 46340
+        //this is only relevant for an input of 2147483647 because larger inputs are not accepted anyways
+        for (int i = 5; i * i <= num && i * i > 0; i += 6){
             if (num % i == 0){
                 divisibleBy = "Divisible by " + i;
                 return false;
