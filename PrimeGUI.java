@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 public class PrimeGUI extends JFrame{ 
     private Prime primeMethods;
+    private boolean selectedAlgorithm = false;
     
     private JPanel panel = new JPanel();
     private JButton inputButton = new JButton("Enter Integer:");
@@ -13,7 +14,8 @@ public class PrimeGUI extends JFrame{
     private JTextField primeField = new JTextField(10);
     private JTextField divisibleByField = new JTextField(10);
     private JLabel calculateAllLabel = new JLabel("Calculate all primes until integer:");
-    private JComboBox algorithmCB = new JComboBox();
+    private String[] algorithmOptions = {"Simple", "Eratosthenes"};
+    private JComboBox<String> algorithmCB = new JComboBox<String>(algorithmOptions);
     private JButton calculateButton = new JButton("Calculate");
     private JLabel numOfPrimesLabel = new JLabel("Number of Primes");
     private JTextField numOfPrimesField = new JTextField(10);
@@ -56,6 +58,10 @@ public class PrimeGUI extends JFrame{
         inputButton.addActionListener(ibAL);
         PrimeBtnAL pbAL = new PrimeBtnAL();
         primeButton.addActionListener(pbAL);
+        CalculateBtnAL cbAL = new CalculateBtnAL();
+        calculateButton.addActionListener(cbAL);
+        ComboBoxAL cmboAL = new ComboBoxAL();
+        algorithmCB.addActionListener(cmboAL);
     }
     private class InputBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
@@ -71,7 +77,7 @@ public class PrimeGUI extends JFrame{
                 JOptionPane.showMessageDialog(null, "Please enter an integer not greater than 2147483646", "Error", JOptionPane.ERROR_MESSAGE);
             }catch(InputTooLarge itl){
                 JOptionPane.showMessageDialog(null, itl.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            }//end try-catch
         }//end method
     }//end private ActionListener class 
     private class PrimeBtnAL implements ActionListener{
@@ -88,14 +94,31 @@ public class PrimeGUI extends JFrame{
                 }
             }catch(NullPointerException npe) {
                 JOptionPane.showMessageDialog(null, "Please enter an integer before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
-            }//end method
+            }//end try-catch
         }//end private ActionListener class 
     }
     private class CalculateBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
-
+            try{
+                primeMethods.runAlgorithm(selectedAlgorithm);
+                numOfPrimesField.setText(String.valueOf(primeMethods.getPrimes().size()));
+                timeElapsedField.setText(String.valueOf(primeMethods.getDuration()));
+            }catch(NullPointerException npe) {
+                JOptionPane.showMessageDialog(null, "Please enter an integer before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
+            }//end try-catch
         }//end method
     }//end private ActionListener class 
+    private class ComboBoxAL implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            String selected = (String)algorithmCB.getSelectedItem();
+            
+            if(selected.equals("Simple")){
+                selectedAlgorithm = false;
+            }else{
+                selectedAlgorithm = true;
+            }//end if-else
+        }//end method
+    }
     private class printPrimeBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
             
