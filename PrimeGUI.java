@@ -58,16 +58,20 @@ public class PrimeGUI extends JFrame{
     private class PrimeBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                boolean isPrime = primeMethods.isPrime(Integer.parseInt(inputField.getText()));
+                int inputtedInt = Integer.parseInt(inputField.getText());               
+                boolean isPrime = primeMethods.isPrime(inputtedInt);
                 
                 if(isPrime){
                     primeField.setText("Prime");
+                    divisibleByField.setText("");
                 }else{
                     primeField.setText("Not Prime");
                     divisibleByField.setText(primeMethods.getDivisibleBy());
                 }
+            }catch(InputTooLarge itl){
+                JOptionPane.showMessageDialog(null, itl.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }catch(NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "Please enter an integer", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please enter an integer not greater than 2147483646", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }//end method
     }//end private ActionListener class 
@@ -80,7 +84,8 @@ public class PrimeGUI extends JFrame{
         public void actionPerformed(ActionEvent e){
             
         }//end method
-    }//end private ActionListener class 
+    }//end private ActionListener class
+    
     public static void main(String[] args){
         PrimeGUI obj = new PrimeGUI();
     }//end main method  

@@ -7,7 +7,11 @@ public class Prime{
     
     public Prime(){}
 
-    public boolean isPrime(int num){
+    public boolean isPrime(int num) throws InputTooLarge {
+        if(num >= Integer.MAX_VALUE){
+            throw new InputTooLarge();
+        }
+        
         if (num <= 1){
             return false;
         }
@@ -26,9 +30,7 @@ public class Prime{
         //cycle through all possible divisors 
         //beginning with 5 and adding 2 and then 4 alternately
         //this covers all prime divisors
-        //condition i*i > 0 helps for overflow when i > 46340
-        //this is only relevant for an input of 2147483647 because larger inputs are not accepted anyways
-        for (int i = 5; i * i <= num && i * i > 0; i += 6){
+        for (int i = 5; i * i <= num; i += 6){
             if (num % i == 0){
                 divisibleBy = "Divisible by " + i;
                 return false;
@@ -45,7 +47,11 @@ public class Prime{
     
     //get all prime numbers <= parameter integer
     //checks each number individually to see if it is prime
-    private ArrayList<Integer> allPrimes(int num){
+    private ArrayList<Integer> allPrimes(int num) throws InputTooLarge {
+        if(num >= Integer.MAX_VALUE){
+            throw new InputTooLarge();
+        }
+        
         boolean[] nums = new boolean[num + 1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         
@@ -72,7 +78,11 @@ public class Prime{
     
     //get all prime numbers <= parameter integer
     //algorithm employs sieve of eratosthenes
-    private ArrayList<Integer> allPrimesEratosthenes(int num){
+    private ArrayList<Integer> allPrimesEratosthenes(int num) throws InputTooLarge {
+        if(num >= Integer.MAX_VALUE){
+            throw new InputTooLarge();
+        }
+        
         boolean[] nums = new boolean[num +1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         int sqrtOfNum = (int)Math.sqrt(num);
@@ -109,7 +119,7 @@ public class Prime{
     }//end method
     
     //return list of prime numbers using chosen algorithm
-    public void runAlgorithm(int num, boolean eratosthenes){        
+    public void runAlgorithm(int num, boolean eratosthenes) throws InputTooLarge {        
         long startTime = System.nanoTime();
         
         if(!eratosthenes){
