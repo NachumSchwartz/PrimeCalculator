@@ -1,28 +1,30 @@
 import java.util.*;
 
 public class Prime{
+    private int inputtedNum;
     private String divisibleBy;
     private ArrayList<Integer> listOfPrimes = new ArrayList<Integer>();
     private long durationOfCalculation;
     
-    public Prime(){}
-
-    public boolean isPrime(int num) throws InputTooLarge {
-        if(num >= Integer.MAX_VALUE){
+    public Prime(int inputtedNum)throws InputTooLarge {
+        if(inputtedNum >= Integer.MAX_VALUE){
             throw new InputTooLarge();
         }
-        
-        if (num <= 1){
+        this.inputtedNum = inputtedNum;
+    }
+
+    public boolean isPrime(){        
+        if (inputtedNum <= 1){
             return false;
         }
-        if(num == 2||num == 3){
+        if(inputtedNum == 2||inputtedNum == 3){
             return true;
         }
-        if (num % 2 == 0){
+        if (inputtedNum % 2 == 0){
             divisibleBy = "Divisible by 2";
             return false; 
         }
-        if (num % 3 == 0){
+        if (inputtedNum % 3 == 0){
             divisibleBy = "Divisible by 3";
             return false;
         }
@@ -30,12 +32,12 @@ public class Prime{
         //cycle through all possible divisors 
         //beginning with 5 and adding 2 and then 4 alternately
         //this covers all prime divisors
-        for (int i = 5; i * i <= num; i += 6){
-            if (num % i == 0){
+        for (int i = 5; i * i <= inputtedNum; i += 6){
+            if (inputtedNum % i == 0){
                 divisibleBy = "Divisible by " + i;
                 return false;
             }
-            if (num % (i + 2) == 0){
+            if (inputtedNum % (i + 2) == 0){
                 divisibleBy = "Divisible by " + (i + 2);
                 return false;
             }
@@ -47,17 +49,13 @@ public class Prime{
     
     //get all prime numbers <= parameter integer
     //checks each number individually to see if it is prime
-    private ArrayList<Integer> allPrimes(int num) throws InputTooLarge {
-        if(num >= Integer.MAX_VALUE){
-            throw new InputTooLarge();
-        }
-        
-        boolean[] nums = new boolean[num + 1];
+    private ArrayList<Integer> allPrimes(){
+        boolean[] nums = new boolean[inputtedNum + 1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         
         //cycle through all integers <= num and check if they are prime
         //set equivalent boolean as true if the integer is not prime
-        for(int i = 0; i <= num; i++){
+        for(int i = 0; i <= inputtedNum; i++){
             for(int j = 2; j * j <= i; j++){
                 if(i % j == 0){
                     nums[i] = true;//not prime
@@ -67,7 +65,7 @@ public class Prime{
         }//end for-loop
         
         //cycle through boolean table and place all false booleans into a list
-        for(int i = 2; i <= num; i++){
+        for(int i = 2; i <= inputtedNum; i++){
             if(!nums[i]){
                 primes.add(i);
             }//end if
@@ -78,17 +76,13 @@ public class Prime{
     
     //get all prime numbers <= parameter integer
     //algorithm employs sieve of eratosthenes
-    private ArrayList<Integer> allPrimesEratosthenes(int num) throws InputTooLarge {
-        if(num >= Integer.MAX_VALUE){
-            throw new InputTooLarge();
-        }
-        
-        boolean[] nums = new boolean[num +1];
+    private ArrayList<Integer> allPrimesEratosthenes(){        
+        boolean[] nums = new boolean[inputtedNum +1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
-        int sqrtOfNum = (int)Math.sqrt(num);
+        int sqrtOfNum = (int)Math.sqrt(inputtedNum);
         
         //mark off all multiples of 2 <= num as true (== not prime) in nums[]
-        for(int j = 2; j * 2 <= num; j++){
+        for(int j = 2; j * 2 <= inputtedNum; j++){
             nums[j*2] = true;
         }//end for-loop
         
@@ -101,7 +95,7 @@ public class Prime{
                 
                 //mark off all multiples of i beginning with i*i
                 //j is incremented by two because multiples of 2 are already marked as true
-                for(int j = i; j * i <= num; j = j + 2){
+                for(int j = i; j * i <= inputtedNum; j = j + 2){
                     nums[i*j] = true;
                 }//end for loop
             }//end if
@@ -109,7 +103,7 @@ public class Prime{
         
         //cycle through boolean table and place all false booleans (== primes) into a list
         //begin with 2 because 0 and 1 are false but not prime
-        for(int i = 2; i <= num; i++){
+        for(int i = 2; i <= inputtedNum; i++){
             if(!nums[i]){
                 primes.add(i);
             }//end if
@@ -119,13 +113,13 @@ public class Prime{
     }//end method
     
     //return list of prime numbers using chosen algorithm
-    public void runAlgorithm(int num, boolean eratosthenes) throws InputTooLarge {        
+    public void runAlgorithm(boolean eratosthenes){        
         long startTime = System.nanoTime();
         
         if(!eratosthenes){
-            listOfPrimes = allPrimes(num);
+            listOfPrimes = allPrimes();
         }else{
-            listOfPrimes = allPrimesEratosthenes(num);
+            listOfPrimes = allPrimesEratosthenes();
         }//end if-else
         
         //store duration in instance variable

@@ -3,11 +3,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class PrimeGUI extends JFrame{
-    Prime primeMethods = new Prime();
+public class PrimeGUI extends JFrame{ 
+    private Prime primeMethods;
     
     private JPanel panel = new JPanel();
-    private JLabel inputLabel = new JLabel("Enter Integer:");
+    private JButton inputButton = new JButton("Enter Integer:");
     private JTextField inputField = new JTextField(10);
     private JButton primeButton = new JButton("Prime Check");
     private JTextField primeField = new JTextField(10);
@@ -36,7 +36,7 @@ public class PrimeGUI extends JFrame{
         
         panel.setLayout(gbLayout);
         
-        panel.add(inputLabel, new GBC(1,0).setInsets(10));
+        panel.add(inputButton, new GBC(1,0).setInsets(10));
         panel.add(inputField, new GBC(2,0).setInsets(10));
         panel.add(primeButton, new GBC(1,1).setInsets(10));
         panel.add(primeField, new GBC(2,1).setInsets(10));
@@ -52,14 +52,32 @@ public class PrimeGUI extends JFrame{
         
         add(panel);
         
+        InputBtnAL ibAL = new InputBtnAL();
+        inputButton.addActionListener(ibAL);
         PrimeBtnAL pbAL = new PrimeBtnAL();
         primeButton.addActionListener(pbAL);
     }
+    private class InputBtnAL implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            try{
+                int inputtedInt = Integer.parseInt(inputField.getText());
+                primeMethods = new Prime(inputtedInt);
+                
+                divisibleByField.setText("");
+                primeField.setText("");
+                numOfPrimesField.setText("");
+                timeElapsedField.setText("");
+            }catch(NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "Please enter an integer not greater than 2147483646", "Error", JOptionPane.ERROR_MESSAGE);
+            }catch(InputTooLarge itl){
+                JOptionPane.showMessageDialog(null, itl.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }//end method
+    }//end private ActionListener class 
     private class PrimeBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
-                int inputtedInt = Integer.parseInt(inputField.getText());               
-                boolean isPrime = primeMethods.isPrime(inputtedInt);
+                boolean isPrime = primeMethods.isPrime();
                 
                 if(isPrime){
                     primeField.setText("Prime");
@@ -68,16 +86,14 @@ public class PrimeGUI extends JFrame{
                     primeField.setText("Not Prime");
                     divisibleByField.setText(primeMethods.getDivisibleBy());
                 }
-            }catch(InputTooLarge itl){
-                JOptionPane.showMessageDialog(null, itl.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }catch(NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "Please enter an integer not greater than 2147483646", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }//end method
-    }//end private ActionListener class 
+            }catch(NullPointerException npe) {
+                JOptionPane.showMessageDialog(null, "Please enter an integer before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
+            }//end method
+        }//end private ActionListener class 
+    }
     private class CalculateBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            
+
         }//end method
     }//end private ActionListener class 
     private class printPrimeBtnAL implements ActionListener{
@@ -89,4 +105,4 @@ public class PrimeGUI extends JFrame{
     public static void main(String[] args){
         PrimeGUI obj = new PrimeGUI();
     }//end main method  
-}//end class 
+}//end class  
