@@ -3,12 +3,15 @@ import java.util.*;
 public class Prime{
     private int inputtedNum;
     private String divisibleBy;
-    private ArrayList<Integer> listOfPrimes = new ArrayList<Integer>();
+    private ArrayList<Integer> listOfPrimes;
     private long durationOfCalculation;
     
-    public Prime(int inputtedNum)throws InputTooLarge {
+    public Prime(int inputtedNum)throws InputTooLarge, NegativeInput{
         if(inputtedNum >= Integer.MAX_VALUE){
             throw new InputTooLarge();
+        }
+        if(inputtedNum <= 0){
+            throw new NegativeInput();
         }
         this.inputtedNum = inputtedNum;
     }

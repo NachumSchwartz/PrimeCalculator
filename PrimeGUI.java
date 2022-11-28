@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class PrimeGUI extends JFrame{ 
+public class PrimeGUI extends JFrame{  
     private Prime primeMethods;
     private boolean selectedAlgorithm = false;
     
@@ -21,9 +21,9 @@ public class PrimeGUI extends JFrame{
     private JTextField numOfPrimesField = new JTextField(10);
     private JLabel timeElapsedLabel = new JLabel("Time Elapsed");
     private JTextField timeElapsedField = new JTextField(10);
-    private JButton printPrimeButton = new JButton("Print all primes to console");
+    private JButton printPrimesButton = new JButton("Print all primes to console");
     
-    private GridBagLayout gbLayout = new GridBagLayout();
+    private GridBagLayout gbLayout = new GridBagLayout(); 
     
     
         
@@ -50,7 +50,7 @@ public class PrimeGUI extends JFrame{
         panel.add(numOfPrimesField, new GBC(1,4).setInsets(10));
         panel.add(timeElapsedLabel, new GBC(2,4).setInsets(10));
         panel.add(timeElapsedField, new GBC(3,4).setInsets(10));
-        panel.add(printPrimeButton, new GBC(1,5,2,3).setInsets(10));
+        panel.add(printPrimesButton, new GBC(1,5,2,3).setInsets(10));
         
         add(panel);
         
@@ -60,9 +60,13 @@ public class PrimeGUI extends JFrame{
         primeButton.addActionListener(pbAL);
         CalculateBtnAL cbAL = new CalculateBtnAL();
         calculateButton.addActionListener(cbAL);
+        PrintPrimesBtnAL prbAL = new PrintPrimesBtnAL();
+        printPrimesButton.addActionListener(prbAL);
         ComboBoxAL cmboAL = new ComboBoxAL();
         algorithmCB.addActionListener(cmboAL);
-    }
+    }//end constructor
+    
+    //private ActionListener classes
     private class InputBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
@@ -77,10 +81,12 @@ public class PrimeGUI extends JFrame{
                 JOptionPane.showMessageDialog(null, "Please enter an integer not greater than 2147483646", "Error", JOptionPane.ERROR_MESSAGE);
             }catch(InputTooLarge itl){
                 JOptionPane.showMessageDialog(null, itl.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }catch(NegativeInput ni){
+                JOptionPane.showMessageDialog(null, ni.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }//end try-catch
-        }//end method
-    }//end private ActionListener class 
-    private class PrimeBtnAL implements ActionListener{
+        }//end method 
+    }//end private ActionListener class
+    private class PrimeBtnAL implements ActionListener{  
         public void actionPerformed(ActionEvent e){
             try{
                 boolean isPrime = primeMethods.isPrime();
@@ -95,8 +101,8 @@ public class PrimeGUI extends JFrame{
             }catch(NullPointerException npe) {
                 JOptionPane.showMessageDialog(null, "Please enter an integer before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
             }//end try-catch
-        }//end private ActionListener class 
-    }
+        }//end method  
+    }//end private ActionListener class  
     private class CalculateBtnAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
@@ -107,7 +113,23 @@ public class PrimeGUI extends JFrame{
                 JOptionPane.showMessageDialog(null, "Please enter an integer before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
             }//end try-catch
         }//end method
-    }//end private ActionListener class 
+    }//end private ActionListener class  
+    private class PrintPrimesBtnAL implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            try{
+                if(primeMethods.getPrimes() == null){
+                    throw new NoListYet();
+                }else{
+                    System.out.println(primeMethods.getPrimes());
+                }
+                
+            }catch(NullPointerException npe) {
+                JOptionPane.showMessageDialog(null, "Please calculate primes before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
+            }catch(NoListYet nly){
+                JOptionPane.showMessageDialog(null, nly.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }//end try-catch 
+        }//end method 
+    }//end private ActionListener class
     private class ComboBoxAL implements ActionListener{
         public void actionPerformed(ActionEvent e){
             String selected = (String)algorithmCB.getSelectedItem();
@@ -118,14 +140,10 @@ public class PrimeGUI extends JFrame{
                 selectedAlgorithm = true;
             }//end if-else
         }//end method
-    }
-    private class printPrimeBtnAL implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-            
-        }//end method
-    }//end private ActionListener class
+    } 
+
     
     public static void main(String[] args){
-        PrimeGUI obj = new PrimeGUI();
+        PrimeGUI obj = new PrimeGUI(); 
     }//end main method  
-}//end class  
+}//end class   
