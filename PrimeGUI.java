@@ -32,7 +32,7 @@ public class PrimeGUI extends JFrame{
         //frame specifications
         setTitle("Prime Calculator");
         setVisible(true);
-        setSize(600,400);
+        setSize(900,600);
         setResizable(false);
         setLocationRelativeTo(null);          
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,10 +59,10 @@ public class PrimeGUI extends JFrame{
         timeElapsedLabel.setForeground(Color.white);
         
         panel.add(inputField, new GBC(1,0).setInsets(0,0,10,10));
-        panel.add(inputButton, new GBC(1,1).setInsets(10,0,10,0));       
-        panel.add(primeButton, new GBC(0,2).setInsets(10,10,10,0));
-        panel.add(primeField, new GBC(1,2).setInsets(10,0,10,10));
-        panel.add(divisibleByField, new GBC(2,2).setInsets(10,0,10,10));
+        panel.add(inputButton, new GBC(1,1).setInsets(10,0,40,0));       
+        panel.add(primeButton, new GBC(0,2).setInsets(10,10,25,0));
+        panel.add(primeField, new GBC(1,2).setInsets(10,0,25,10));
+        panel.add(divisibleByField, new GBC(2,2).setInsets(10,0,25,10));
         panel.add(calculateAllLabel, new GBC(0,3).setInsets(10,0,10,0));
         panel.add(algorithmCB, new GBC(1,3).setInsets(10,0,10,10));
         panel.add(calculateButton, new GBC(2,3).setInsets(10,0,10,50));
@@ -70,7 +70,7 @@ public class PrimeGUI extends JFrame{
         panel.add(numOfPrimesField, new GBC(1,4,2,1).setInsets(10,0,10,50));
         panel.add(timeElapsedLabel, new GBC(0,5).setInsets(10,20,10,0));
         panel.add(timeElapsedField, new GBC(1,5,2,1).setInsets(10,0,10,50));
-        panel.add(printPrimesButton, new GBC(1,6).setInsets(10));
+        panel.add(printPrimesButton, new GBC(1,6).setInsets(75,10,10,10).setAnchor(GBC.SOUTH));
         
         add(panel);
         
@@ -164,6 +164,11 @@ public class PrimeGUI extends JFrame{
 
     
     public static void main(String[] args){
+        Font largerFont = new Font("Dialog",Font.BOLD,20);
+        UIManager.put("Label.font", largerFont);
+        UIManager.put("Button.font", largerFont);
+        UIManager.put("TextField.font", largerFont);
+        UIManager.put("ComboBox.font", largerFont);
         PrimeGUI obj = new PrimeGUI(); 
     }//end main method  
 }//end class   
