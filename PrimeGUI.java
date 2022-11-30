@@ -2,13 +2,14 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.*;
 
 public class PrimeGUI extends JFrame{  
     private Prime primeMethods;
     private boolean selectedAlgorithm = false;
     
     private JPanel panel = new JPanel();
-    private JButton inputButton = new JButton("Enter Integer:");
+    private JButton inputButton = new JButton("Press To Accept Integer");
     private JTextField inputField = new JTextField(10);
     private JButton primeButton = new JButton("Prime Check");
     private JTextField primeField = new JTextField(10);
@@ -17,10 +18,10 @@ public class PrimeGUI extends JFrame{
     private String[] algorithmOptions = {"Simple", "Eratosthenes"};
     private JComboBox<String> algorithmCB = new JComboBox<String>(algorithmOptions);
     private JButton calculateButton = new JButton("Calculate");
-    private JLabel numOfPrimesLabel = new JLabel("Number of Primes");
-    private JTextField numOfPrimesField = new JTextField(10);
-    private JLabel timeElapsedLabel = new JLabel("Time Elapsed");
-    private JTextField timeElapsedField = new JTextField(10);
+    private JLabel numOfPrimesLabel = new JLabel("Number of Primes:");
+    private JTextField numOfPrimesField = new JTextField(30);
+    private JLabel timeElapsedLabel = new JLabel("Time Elapsed:");
+    private JTextField timeElapsedField = new JTextField(30);
     private JButton printPrimesButton = new JButton("Print all primes to console");
     
     private GridBagLayout gbLayout = new GridBagLayout(); 
@@ -37,20 +38,39 @@ public class PrimeGUI extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         panel.setLayout(gbLayout);
+        panel.setBackground(new Color(63,127,0));
         
-        panel.add(inputButton, new GBC(1,0).setInsets(10));
-        panel.add(inputField, new GBC(2,0).setInsets(10));
-        panel.add(primeButton, new GBC(1,1).setInsets(10));
-        panel.add(primeField, new GBC(2,1).setInsets(10));
-        panel.add(divisibleByField, new GBC(1,2,2,1).setInsets(10));
-        panel.add(calculateAllLabel, new GBC(0,3,2,1).setInsets(10));
-        panel.add(algorithmCB, new GBC(2,3).setInsets(10));
-        panel.add(calculateButton, new GBC(3,3).setInsets(10));
-        panel.add(numOfPrimesLabel, new GBC(0,4).setInsets(10));
-        panel.add(numOfPrimesField, new GBC(1,4).setInsets(10));
-        panel.add(timeElapsedLabel, new GBC(2,4).setInsets(10));
-        panel.add(timeElapsedField, new GBC(3,4).setInsets(10));
-        panel.add(printPrimesButton, new GBC(1,5,2,3).setInsets(10));
+        primeField.setEditable(false);
+        divisibleByField.setEditable(false);
+        numOfPrimesField.setEditable(false);
+        timeElapsedField.setEditable(false);
+        inputField.setOpaque(false);
+        primeField.setOpaque(false);
+        divisibleByField.setOpaque(false);
+        numOfPrimesField.setOpaque(false);
+        timeElapsedField.setOpaque(false);
+        inputField.setForeground(Color.white);
+        primeField.setForeground(Color.white);
+        divisibleByField.setForeground(Color.white);
+        numOfPrimesField.setForeground(Color.white);
+        timeElapsedField.setForeground(Color.white);        
+        calculateAllLabel.setForeground(Color.white);
+        numOfPrimesLabel.setForeground(Color.white);
+        timeElapsedLabel.setForeground(Color.white);
+        
+        panel.add(inputField, new GBC(1,0).setInsets(0,0,10,10));
+        panel.add(inputButton, new GBC(1,1).setInsets(10,0,10,0));       
+        panel.add(primeButton, new GBC(0,2).setInsets(10,10,10,0));
+        panel.add(primeField, new GBC(1,2).setInsets(10,0,10,10));
+        panel.add(divisibleByField, new GBC(2,2).setInsets(10,0,10,10));
+        panel.add(calculateAllLabel, new GBC(0,3).setInsets(10,0,10,0));
+        panel.add(algorithmCB, new GBC(1,3).setInsets(10,0,10,10));
+        panel.add(calculateButton, new GBC(2,3).setInsets(10,0,10,50));
+        panel.add(numOfPrimesLabel, new GBC(0,4).setInsets(10,20,10,0));
+        panel.add(numOfPrimesField, new GBC(1,4,2,1).setInsets(10,0,10,50));
+        panel.add(timeElapsedLabel, new GBC(0,5).setInsets(10,20,10,0));
+        panel.add(timeElapsedField, new GBC(1,5,2,1).setInsets(10,0,10,50));
+        panel.add(printPrimesButton, new GBC(1,6).setInsets(10));
         
         add(panel);
         
@@ -108,7 +128,7 @@ public class PrimeGUI extends JFrame{
             try{
                 primeMethods.runAlgorithm(selectedAlgorithm);
                 numOfPrimesField.setText(String.valueOf(primeMethods.getPrimes().size()));
-                timeElapsedField.setText(String.valueOf(primeMethods.getDuration()));
+                timeElapsedField.setText(primeMethods.getDuration());
             }catch(NullPointerException npe) {
                 JOptionPane.showMessageDialog(null, "Please enter an integer before pressing this button", "Error", JOptionPane.ERROR_MESSAGE);            
             }//end try-catch
