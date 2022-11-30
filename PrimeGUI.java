@@ -84,6 +84,8 @@ public class PrimeGUI extends JFrame{
         printPrimesButton.addActionListener(prbAL);
         ComboBoxAL cmboAL = new ComboBoxAL();
         algorithmCB.addActionListener(cmboAL);
+        TextFieldKL tfKL = new TextFieldKL();
+        inputField.addKeyListener(tfKL);
     }//end constructor
     
     //private ActionListener classes
@@ -93,6 +95,10 @@ public class PrimeGUI extends JFrame{
                 int inputtedInt = Integer.parseInt(inputField.getText());
                 primeMethods = new Prime(inputtedInt);
                 
+                inputButton.setBackground(new Color(0,96,96));
+                inputButton.setForeground(Color.white);
+                inputButton.setText("Integer Accepted");
+                               
                 divisibleByField.setText("");
                 primeField.setText("");
                 numOfPrimesField.setText("");
@@ -160,8 +166,17 @@ public class PrimeGUI extends JFrame{
                 selectedAlgorithm = true;
             }//end if-else
         }//end method
-    } 
-
+    }//end private ActionListener class 
+    private class TextFieldKL implements KeyListener{
+        public void keyReleased(KeyEvent e){
+            primeMethods = null;
+            inputButton.setBackground(new JButton().getBackground()); 
+            inputButton.setForeground(Color.black);
+            inputButton.setText("Press To Accept Integer");
+        }//end method 
+        public void keyPressed(KeyEvent e) {}
+        public void keyTyped(KeyEvent e) {}  
+    }//end private KeyListener class    
     
     public static void main(String[] args){
         Font largerFont = new Font("Dialog",Font.BOLD,20);
@@ -169,6 +184,7 @@ public class PrimeGUI extends JFrame{
         UIManager.put("Button.font", largerFont);
         UIManager.put("TextField.font", largerFont);
         UIManager.put("ComboBox.font", largerFont);
+        
         PrimeGUI obj = new PrimeGUI(); 
-    }//end main method  
+    }//end main method   
 }//end class   
