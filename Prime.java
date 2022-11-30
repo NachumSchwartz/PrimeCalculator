@@ -1,4 +1,5 @@
 import java.util.*;
+import java.text.*;
 
 public class Prime{
     private int inputtedNum;
@@ -127,7 +128,7 @@ public class Prime{
         
         //store duration in instance variable
         durationOfCalculation = System.nanoTime() - startTime;
-    }//end method
+    }//end method     
     
     //getters
     public String getDivisibleBy(){
@@ -136,7 +137,41 @@ public class Prime{
     public ArrayList<Integer> getPrimes(){
         return listOfPrimes;
     }//end method   
-    public long getDuration(){
-        return durationOfCalculation;
+    public String getDuration(){
+        return durationString();
     }//end method
+    
+    private String durationString(){
+        double microseconds = durationOfCalculation / 1000.0;//convert nano into micro
+        String microString = "";
+        String milliString = "";
+        String duration = "";
+        
+        if(microseconds >= 1000){
+            DecimalFormat dc = new DecimalFormat(".0");
+            String doubleAsString = dc.format(microseconds);
+            microString = doubleAsString.substring(doubleAsString.length() - 5);//last half is microseconds
+            milliString = doubleAsString.substring(0,doubleAsString.length() - 5);//first half is milliseconds
+        }else{
+            microString = String.valueOf(microseconds);
+        }//end if-else
+        
+        
+        //remove extra zeros from microseconds
+        if(microString.endsWith("0")){
+            microString = microString.substring(0,microString.length() - 2);
+        }//end if       
+        while(microString.startsWith("0")){
+            microString = microString.replaceFirst("0","");
+        }//end while
+
+        
+        //define duration String before returning
+        if(!milliString.equals(""))
+            duration = duration + milliString + " milliseconds, " ;
+        if(!microString.equals(""))
+            duration = duration +  microString + " microseconds ";
+            
+        return duration;
+    }//end private method
 }//end class
