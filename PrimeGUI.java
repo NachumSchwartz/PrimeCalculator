@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 public class PrimeGUI extends JFrame{  
     private Prime primeMethods;
     private boolean selectedAlgorithm = false;
+    private javax.swing.Timer delayTimer;
     
     private JPanel panel = new JPanel();
     private JButton inputButton = new JButton("Press To Accept Integer");
@@ -86,6 +87,11 @@ public class PrimeGUI extends JFrame{
         algorithmCB.addActionListener(cmboAL);
         TextFieldKL tfKL = new TextFieldKL();
         inputField.addKeyListener(tfKL);
+        ComboBoxML cbML = new ComboBoxML();
+        algorithmCB.addMouseListener(cbML);
+        HoverTimerAL htAL = new HoverTimerAL();
+        delayTimer = new javax.swing.Timer(500,htAL);
+        delayTimer.setRepeats(false);
     }//end constructor
     
     //private ActionListener classes
@@ -177,7 +183,30 @@ public class PrimeGUI extends JFrame{
         public void keyPressed(KeyEvent e) {}
         public void keyTyped(KeyEvent e) {}  
     }//end private KeyListener class    
-    
+    private class ComboBoxML implements MouseListener{
+        public void mouseEntered(MouseEvent e){
+            if(!delayTimer.isRunning())
+                delayTimer.start();            
+        }
+        public void mouseExited(MouseEvent e){}
+        public void mouseClicked(MouseEvent e){}
+        public void mousePressed(MouseEvent e){}
+        public void mouseReleased(MouseEvent e){}
+    }//end private MouseListener class 
+    private class HoverTimerAL implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            String selected = (String)algorithmCB.getSelectedItem();
+            String message = "";
+            
+            if(selected.equals("Simple")){
+                message = "Cycles through integers and checks each one if it's prime.";
+            }else{
+                message = "Cycles through integers and marks off all multiples of each one as not prime. Any integer already marked is skipped.";
+            }//end if-else
+            
+            JOptionPane.showMessageDialog(null, message, "Algorithm Info", JOptionPane.INFORMATION_MESSAGE);
+        }//end method
+    }//end private ActionListener class 
     public static void main(String[] args){
         Font largerFont = new Font("Dialog",Font.BOLD,20);
         UIManager.put("Label.font", largerFont);
