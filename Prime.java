@@ -57,13 +57,13 @@ public class Prime{
         boolean[] nums = new boolean[inputtedNum + 1];
         ArrayList<Integer> primes = new ArrayList<Integer>();
         
-        //cycle through all integers <= num and check if they are prime
+        //cycle through all integers <= inputtedNum and check if they are prime
         //set equivalent boolean as true if the integer is not prime
         for(int i = 0; i <= inputtedNum; i++){
             for(int j = 2; j * j <= i; j++){
                 if(i % j == 0){
                     nums[i] = true;//not prime
-                    break;//num has a divisor - is not prime - no need to check any longer
+                    break;//i has a divisor - is not prime - no need to check any longer
                 }//end if
             }//end for-loop
         }//end for-loop
@@ -91,10 +91,11 @@ public class Prime{
         }//end for-loop
         
         //mark off all multiples of 3 and of all subsequent prime integers as true in nums[]
-        for(int i = 3; i <= sqrtOfNum; i++){
+        //i is incremented by two because multiples of 2 are already marked as true
+        for(int i = 3; i <= sqrtOfNum; i = i + 2){
             
             //only check multiples if i is prime
-            //if i not not prime, all multiples have already been marked as true
+            //if i is not prime, all multiples have already been marked as true
             if(!nums[i]){
                 
                 //mark off all multiples of i beginning with i*i
